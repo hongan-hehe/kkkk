@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chuyến Tàu Kinh Thánh</title>
+  <style>
+    body {
+      background: linear-gradient(to top, #cbefff, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      margin: 0;
+      overflow: hidden;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-top: 20px;
+    }
+    #game-board {
+      position: relative;
+      width: 90%;
+      height: 200px;
+      margin: 50px auto;
+      border: 4px solid #3498db;
+      border-radius: 20px;
+      background: #ecf9ff;
+      overflow: hidden;
+    }
+    .track {
+      position: absolute;
+      width: 100%;
+      height: 40px;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        #7f8c8d,
+        #7f8c8d 20px,
+        #bdc3c7 20px,
+        #bdc3c7 40px
+      );
+    }
+    .train {
+      position: absolute;
+      width: 120px;
+      height: 80px;
+      background-image: url('https://i.imgur.com/0TQxFYd.png');
+      background-size: cover;
+      transition: left 0.5s ease-in-out;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1abc9c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chuyến Tàu Kinh Thánh</h1>
+  <div id="game-board">
+    <div id="train1" class="train" style="top: 20px; left: 0;"></div>
+    <div id="train2" class="train" style="top: 100px; left: 0;"></div>
+    <div class="track"></div>
+  </div>
+  <div>
+    <button onclick="moveTrain('train1', 2)">Đội 1: Đúng</button>
+    <button onclick="moveTrain('train1', -2)">Đội 1: Sai</button>
+    <button onclick="moveTrain('train2', 2)">Đội 2: Đúng</button>
+    <button onclick="moveTrain('train2', -2)">Đội 2: Sai</button>
+  </div>
+  <audio id="moveSound" src="https://www.soundjay.com/transportation/train-pass-by-01a.mp3"></audio>
+  <script>
+    const step = 40; // mỗi bước = 40px
+    const boardWidth = document.getElementById('game-board').clientWidth;
+
+    function moveTrain(trainId, steps) {
+      const train = document.getElementById(trainId);
+      const sound = document.getElementById('moveSound');
+      let currentLeft = parseInt(train.style.left, 10);
+      let newLeft = currentLeft + steps * step;
+
+      // Giới hạn trong khung
+      newLeft = Math.max(0, Math.min(newLeft, boardWidth - 120));
+      train.style.left = newLeft + 'px';
+      sound.currentTime = 0;
+      sound.play();
+    }
+  </script>
+</body>
+</html>
